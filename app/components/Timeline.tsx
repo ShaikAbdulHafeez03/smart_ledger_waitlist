@@ -7,7 +7,7 @@ const milestones = [
     description:
       'Chat-driven journal entries, mandatory proof uploads, and a clean dashboard for tracking expenses.',
     status: 'current',
-    quarter: 'Q2 2026',
+    quarter: 'Q3 2026',
     icon: '🚀',
   },
   {
@@ -16,7 +16,7 @@ const milestones = [
     description:
       'Automatic GST categorisation, input tax credit tracking, and GSTR-2A reconciliation — built right in.',
     status: 'upcoming',
-    quarter: 'Q3 2026',
+    quarter: 'To Be Announced',
     icon: '🧾',
   },
   {
@@ -25,7 +25,7 @@ const milestones = [
     description:
       'One-click GSTR-1 and GSTR-3B filing. AI-verified returns with audit trail. Your CA will love you.',
     status: 'upcoming',
-    quarter: 'Q4 2026',
+    quarter: 'To Be Announced',
     icon: '⚡',
   },
 ];

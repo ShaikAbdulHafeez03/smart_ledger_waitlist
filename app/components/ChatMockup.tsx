@@ -61,9 +61,9 @@ export default function ChatMockup() {
         padding: '100px 24px',
       }}
     >
-      <div style={{ maxWidth: 1120, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
+      <div className="chat-container" style={{ maxWidth: 1120, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 60, alignItems: 'center' }}>
         {/* Left: copy */}
-        <div style={{ flex: '1 1 280px' }}>
+        <div className="chat-left" style={{ flex: '1 1 280px' }}>
           <p className="section-label" style={{ marginBottom: 12 }}>See It in Action</p>
           <h2
             style={{
@@ -79,13 +79,14 @@ export default function ChatMockup() {
             <span className="gradient-text">We handle the rest.</span>
           </h2>
           <p style={{ color: 'var(--slate)', fontSize: 16, lineHeight: 1.75, maxWidth: 380 }}>
-            No accounting jargon. No journal entries. Type what happened in plain English and AI Core
+            No accounting jargon. No journal entries. Type what happened in plain English and Fintan
             categorises it, captures GST, and requests proof — automatically.
           </p>
         </div>
 
         {/* Right: chat window */}
         <div
+          className="chat-mockup-window"
           style={{
             flex: '1 1 340px',
             background: 'var(--navy)',
@@ -110,7 +111,7 @@ export default function ChatMockup() {
             <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FFBD2E' }} />
             <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#27C93F' }} />
             <span style={{ marginLeft: 10, color: 'rgba(255,255,255,0.4)', fontSize: 12 }}>
-              AI Core — Smart Ledger
+              Fintan — AI Accounting
             </span>
           </div>
 
@@ -213,6 +214,16 @@ export default function ChatMockup() {
       </div>
 
       <style>{`
+        @media (max-width: 900px) {
+          .chat-container { gap: 40px !important; justify-content: center !important; }
+          .chat-left, .chat-mockup-window { flex: 1 1 100% !important; max-width: 560px !important; margin: 0 auto !important; }
+          .chat-left { text-align: center !important; }
+          .chat-left p { max-width: 100% !important; }
+        }
+        @media (max-width: 640px) {
+          #demo { padding: 60px 16px !important; }
+          .chat-mockup-window { max-width: 100% !important; }
+        }
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }

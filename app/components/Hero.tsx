@@ -7,7 +7,7 @@ export default function Hero() {
     <section
       id="hero"
       style={{
-        background: 'var(--navy)',
+        backgroundColor: 'var(--navy)', // Dollar green
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -18,31 +18,69 @@ export default function Hero() {
         overflow: 'hidden',
       }}
     >
-      {/* Background orbs */}
+      {/* Grid Pattern Overlay */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: `
+            linear-gradient(to right, rgba(234, 179, 8, 0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(234, 179, 8, 0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Central Ambient Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '30%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '100%',
+          maxWidth: 1000,
+          height: 600,
+          background: 'radial-gradient(ellipse, var(--gold-glow) 0%, var(--green-glow) 40%, transparent 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Accent Orb 1 */}
       <div
         style={{
           position: 'absolute',
           top: '10%',
-          right: '-5%',
-          width: 600,
-          height: 600,
-          borderRadius: '50%',
-          background:
-            'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '5%',
-          left: '-10%',
+          right: '-10%',
           width: 500,
           height: 500,
           borderRadius: '50%',
-          background:
-            'radial-gradient(circle, rgba(16,185,129,0.07) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(234, 179, 8, 0.15) 0%, transparent 70%)',
+          filter: 'blur(60px)',
           pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Accent Orb 2 */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '-10%',
+          left: '-10%',
+          width: 600,
+          height: 600,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%)',
+          filter: 'blur(60px)',
+          pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
 
@@ -60,17 +98,20 @@ export default function Hero() {
           style={{
             display: 'inline-flex',
             alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
             gap: 8,
-            background: 'rgba(16,185,129,0.12)',
-            border: '1px solid rgba(16,185,129,0.3)',
+            background: 'rgba(255,255,255,0.03)',
+            border: '1px solid rgba(255,255,255,0.08)',
+            backdropFilter: 'blur(10px)',
             borderRadius: 100,
             padding: '6px 16px',
             marginBottom: 28,
           }}
         >
-          <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--emerald)', display: 'inline-block' }} />
-          <span style={{ fontSize: 13, color: 'var(--emerald)', fontWeight: 600 }}>
-            Early Access · First 100 users get 50% lifetime off
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--gold)', display: 'inline-block', boxShadow: '0 0 10px var(--gold)' }} />
+          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.85)', fontWeight: 500, textAlign: 'center' }}>
+            Introducing Fintan 2.0 — <span style={{ color: 'var(--gold)', whiteSpace: 'nowrap' }}>Smarter & Faster</span>
           </span>
         </div>
 
@@ -78,18 +119,24 @@ export default function Hero() {
         <h1
           style={{
             fontSize: 'clamp(36px, 6vw, 64px)',
-            fontWeight: 900,
+            fontWeight: 800,
+            fontFamily: "Georgia, 'Times New Roman', Times, serif",
             lineHeight: 1.1,
             color: 'white',
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.01em',
             marginBottom: 24,
+            wordBreak: 'break-word',
           }}
         >
-          Accounting that{' '}
-          <span className="gradient-text">speaks human.</span>
+          Accounting that <br />
+          <span style={{
+            color: 'var(--gold)'
+          }}>
+            speaks human.
+          </span>
           <br />
-          Evidence that satisfies{' '}
-          <span style={{ color: 'var(--slate-light)' }}>auditors.</span>
+          Evidence that satisfies {' '}
+          <span style={{ color: 'rgba(255, 255, 255, 0.4)' }}>auditors.</span>
         </h1>
 
         {/* Sub-text */}
@@ -120,6 +167,13 @@ export default function Hero() {
           Trusted by early believers — built for 🇮🇳 solopreneurs &amp; freelancers
         </p>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          #hero { padding: 100px 16px 60px !important; }
+          #hero h1 { font-size: clamp(32px, 10vw, 42px) !important; margin-bottom: 16px !important; }
+        }
+      `}</style>
     </section>
   );
 }

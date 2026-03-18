@@ -7,7 +7,7 @@ export default function WaitlistFooter() {
     <section
       id="waitlist"
       style={{
-        background: 'linear-gradient(135deg, #0a1628, var(--navy), #0d2a1c)',
+        background: 'linear-gradient(135deg, var(--navy-light), var(--navy), var(--navy-muted))',
         padding: '100px 24px',
         position: 'relative',
         overflow: 'hidden',
@@ -60,9 +60,10 @@ export default function WaitlistFooter() {
         <h2
           style={{
             fontSize: 'clamp(28px, 5vw, 48px)',
-            fontWeight: 900,
+            fontWeight: 800,
+            fontFamily: "Georgia, 'Times New Roman', Times, serif",
             color: 'white',
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.01em',
             lineHeight: 1.15,
             marginBottom: 20,
           }}
@@ -131,9 +132,15 @@ export default function WaitlistFooter() {
             fontSize: 13,
           }}
         >
-          © 2026 AI Core · Built with ❤️ for 🇮🇳 solopreneurs
+          © 2026 Fintan · Built with ❤️ for 🇮🇳 solopreneurs
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          #waitlist { padding: 60px 16px !important; }
+        }
+      `}</style>
     </section>
   );
 }

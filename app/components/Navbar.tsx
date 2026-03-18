@@ -25,13 +25,14 @@ export default function Navbar() {
         right: 0,
         zIndex: 100,
         transition: 'all 0.3s ease',
-        background: scrolled ? 'rgba(13, 27, 42, 0.95)' : 'transparent',
+        background: scrolled ? 'rgba(11, 42, 21, 0.95)' : 'transparent',
         backdropFilter: scrolled ? 'blur(20px)' : 'none',
         borderBottom: scrolled ? '1px solid rgba(255,255,255,0.08)' : 'none',
         padding: scrolled ? '12px 0' : '20px 0',
       }}
     >
       <div
+        className="navbar-container"
         style={{
           maxWidth: '1120px',
           margin: '0 auto',
@@ -67,13 +68,13 @@ export default function Navbar() {
               letterSpacing: '-0.02em',
             }}
           >
-            AI<span style={{ color: 'var(--emerald)' }}>Core</span>
+            Fin<span style={{ color: 'var(--emerald)' }}>tan</span>
           </span>
         </div>
 
         {/* CTA */}
         <button
-          className="btn-primary"
+          className="btn-primary navbar-cta"
           onClick={handleJoinClick}
           id="navbar-cta"
           style={{ padding: '10px 22px', fontSize: 14 }}
@@ -81,6 +82,18 @@ export default function Navbar() {
           Join Waitlist →
         </button>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .navbar-container {
+            padding: 0 16px !important;
+          }
+          .navbar-cta {
+            padding: 8px 16px !important;
+            font-size: 13px !important;
+          }
+        }
+      `}</style>
     </nav>
   );
 }

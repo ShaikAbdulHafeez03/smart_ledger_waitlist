@@ -7,7 +7,7 @@ const traditional = [
   { icon: '🐌', label: 'Accountant dependency for every small update' },
 ];
 
-const aiCore = [
+const fintan = [
   { icon: '💬', label: 'Chat-driven — describe events in plain English' },
   { icon: '📎', label: 'Mandatory proof engine with every posted entry' },
   { icon: '🔒', label: 'Always audit-ready with immutable, timestamped records' },
@@ -48,7 +48,7 @@ export default function Problem() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: 24,
           }}
         >
@@ -92,7 +92,7 @@ export default function Problem() {
             </ul>
           </div>
 
-          {/* AI Core */}
+          {/* Fintan */}
           <div
             style={{
               background: 'var(--navy)',
@@ -114,11 +114,11 @@ export default function Problem() {
               }}
             >
               <span style={{ color: 'var(--emerald)', fontWeight: 700, fontSize: 13 }}>
-                ✓ AI Core
+                ✓ Fintan
               </span>
             </div>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 18 }}>
-              {aiCore.map((item) => (
+              {fintan.map((item) => (
                 <li
                   key={item.label}
                   style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}
@@ -133,6 +133,12 @@ export default function Problem() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (max-width: 640px) {
+          #problem { padding: 60px 16px !important; }
+        }
+      `}</style>
     </section>
   );
 }

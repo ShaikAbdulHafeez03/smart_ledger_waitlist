@@ -47,9 +47,9 @@ export default function WaitlistForm({ dark = false, id }: WaitlistFormProps) {
   };
 
   const shareText = encodeURIComponent(
-    `I just joined the waitlist for AI Core — the future of AI accounting for Indian solopreneurs. Chat-driven bookkeeping with GST compliance built in. Join me! 🚀`
+    `I just joined the waitlist for Fintan — the future of AI accounting for Indian solopreneurs. Chat-driven bookkeeping with GST compliance built in. Join me! 🚀`
   );
-  const shareUrl = encodeURIComponent('https://aicore.app');
+  const shareUrl = encodeURIComponent('https://fintan.app');
   const twitterShareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
 
   // ── Already enrolled ──────────────────────────────────────────────
@@ -172,10 +172,12 @@ export default function WaitlistForm({ dark = false, id }: WaitlistFormProps) {
       noValidate
     >
       <div
+        className="waitlist-form-container"
         style={{
           display: 'flex',
           gap: 10,
           flexWrap: 'wrap',
+          justifyContent: 'center',
         }}
       >
         <input
@@ -184,6 +186,7 @@ export default function WaitlistForm({ dark = false, id }: WaitlistFormProps) {
           onChange={(e) => { setEmail(e.target.value); setErrorMsg(''); setStatus('idle'); }}
           placeholder="you@company.com"
           id={id ? `${id}-email` : 'email-input'}
+          className="waitlist-input"
           style={{
             flex: 1,
             minWidth: 200,
@@ -202,7 +205,7 @@ export default function WaitlistForm({ dark = false, id }: WaitlistFormProps) {
         />
         <button
           type="submit"
-          className="btn-primary"
+          className="btn-primary waitlist-btn"
           disabled={status === 'loading'}
           id={id ? `${id}-btn` : 'submit-btn'}
         >
@@ -221,6 +224,14 @@ export default function WaitlistForm({ dark = false, id }: WaitlistFormProps) {
       >
         No spam, ever. Unsubscribe anytime.
       </p>
+
+      <style>{`
+        @media (max-width: 640px) {
+          .waitlist-form-container { flex-direction: column !important; width: 100% !important; align-items: stretch !important; }
+          .waitlist-input { min-width: 0 !important; width: 100% !important; margin-bottom: 8px !important; }
+          .waitlist-btn { width: 100% !important; }
+        }
+      `}</style>
     </form>
   );
 }
