@@ -8,14 +8,14 @@ export async function POST(req: NextRequest) {
   try {
     interface SurveyBody {
       email: string;
-      phone: string;
+      name?: string | null;
       usesCurrentSoftware: boolean;
       currentSoftwareLacks?: string | null;
       willingToTry?: boolean | null;
       desiredFeatures?: string | null;
     }
     const body = await req.json() as SurveyBody;
-    const { email, phone, usesCurrentSoftware, currentSoftwareLacks, willingToTry, desiredFeatures } = body;
+    const { email, name, usesCurrentSoftware, currentSoftwareLacks, willingToTry, desiredFeatures } = body;
     const usesSoftwareBool: boolean = Boolean(usesCurrentSoftware);
     // willingToTry is only sent on the "No" branch — preserve null when absent
     const willingToTryBool: boolean | null = willingToTry == null ? null : Boolean(willingToTry);
@@ -26,14 +26,14 @@ export async function POST(req: NextRequest) {
 
     // Mock mode when Supabase not configured
     if (!supabaseUrl || supabaseUrl === 'your_supabase_url_here') {
-      console.log('[Survey Mock] Response received:', { email, phone, usesSoftwareBool, currentSoftwareLacks, willingToTryBool, desiredFeatures });
+      console.log('[Survey Mock] Response received:', { email, name, usesSoftwareBool, currentSoftwareLacks, willingToTryBool, desiredFeatures });
       return NextResponse.json({ success: true, mock: true });
     }
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
     const { error } = await supabase
       .from('waitlist_surveys')
-      .insert([{ email, phone, uses_current_software: usesSoftwareBool, current_software_lacks: currentSoftwareLacks, willing_to_try: willingToTryBool, desired_features: desiredFeatures }]);
+      .insert([{ email, name, uses_current_software: usesSoftwareBool, current_software_lacks: currentSoftwareLacks, willing_to_try: willingToTryBool, desired_features: desiredFeatures }]);
 
     if (error) {
       console.error('Supabase survey error:', error);

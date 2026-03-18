@@ -56,7 +56,7 @@ const labelStyle = (dark: boolean): React.CSSProperties => ({
 
 export default function SurveyForm({ email, dark = false }: SurveyFormProps) {
   const [step, setStep] = useState<Step>('intro');
-  const [phone, setPhone] = useState('');
+  const [name, setName] = useState('');
   const [usesSoftware, setUsesSoftware] = useState<'yes' | 'no' | null>(null);
   const [lacks, setLacks] = useState('');
   const [willing, setWilling] = useState<'yes' | 'no' | null>(null);
@@ -80,7 +80,7 @@ export default function SurveyForm({ email, dark = false }: SurveyFormProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email,
-          phone: phone.trim() || null,
+          name: name.trim() || null,
           usesCurrentSoftware: usesSoftware === 'yes',
           currentSoftwareLacks: usesSoftware === 'yes' ? lacks.trim() || null : null,
           willingToTry: usesSoftware === 'no' ? willing === 'yes' : null,
@@ -164,15 +164,15 @@ export default function SurveyForm({ email, dark = false }: SurveyFormProps) {
       {/* ── Step: intro ──────────────────────────────────── */}
       {step === 'intro' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {/* Phone */}
+          {/* Name */}
           <div>
-            <label style={labelStyle(dark)}>Your Phone Number</label>
+            <label style={labelStyle(dark)}>Your Name</label>
             <input
-              type="tel"
-              value={phone}
-              onChange={(e) => { setPhone(e.target.value); setFieldError(''); }}
-              placeholder="+91 98765 43210"
-              style={{ ...inputStyle(dark), border: fieldError && !phone.trim() ? '1px solid #EF4444' : inputStyle(dark).border }}
+              type="text"
+              value={name}
+              onChange={(e) => { setName(e.target.value); setFieldError(''); }}
+              placeholder="e.g. John Doe"
+              style={{ ...inputStyle(dark), border: fieldError && !name.trim() ? '1px solid #EF4444' : inputStyle(dark).border }}
             />
           </div>
 
@@ -203,7 +203,7 @@ export default function SurveyForm({ email, dark = false }: SurveyFormProps) {
             className="btn-primary"
             disabled={!usesSoftware}
             onClick={() => {
-              if (!phone.trim()) { setFieldError('Please enter your phone number.'); return; }
+              if (!name.trim()) { setFieldError('Please enter your name.'); return; }
               if (!usesSoftware) return;
               setFieldError('');
               setStep(usesSoftware === 'yes' ? 'software_lacks' : 'willing_to_try');
