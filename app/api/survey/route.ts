@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
+import { pool, ensureDbInitialized } from '../../lib/db';
 
 export async function POST(req: NextRequest) {
   try {
+    await ensureDbInitialized();
     interface SurveyBody {
       email: string;
       name?: string | null;
@@ -17,36 +15,43 @@ export async function POST(req: NextRequest) {
     const body = await req.json() as SurveyBody;
     const { email, name, usesCurrentSoftware, currentSoftwareLacks, willingToTry, desiredFeatures } = body;
     const usesSoftwareBool: boolean = Boolean(usesCurrentSoftware);
-    // willingToTry is only sent on the "No" branch — preserve null when absent
     const willingToTryBool: boolean | null = willingToTry == null ? null : Boolean(willingToTry);
 
     if (!email) {
       return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
     }
 
-    // Mock mode when Supabase not configured
-    if (!supabaseUrl || supabaseUrl === 'your_supabase_url_here') {
+    if (!process.env.DATABASE_URL || process.env.DATABASE_URL.includes('your_postgres_url_here')) {
       console.log('[Survey Mock] Response received:', { email, name, usesSoftwareBool, currentSoftwareLacks, willingToTryBool, desiredFeatures });
       return NextResponse.json({ success: true, mock: true });
     }
 
-    const supabase = createClient(supabaseUrl, supabaseAnonKey);
-    const { error } = await supabase
-      .from('waitlist_surveys')
-      .insert([{ email, name, uses_current_software: usesSoftwareBool, current_software_lacks: currentSoftwareLacks, willing_to_try: willingToTryBool, desired_features: desiredFeatures }]);
+    const client = await pool.connect();
+    try {
+      await client.query('BEGIN');
+      
+      // Insert survey data into waitlist_surveys
+      await client.query(`
+        INSERT INTO waitlist_surveys (
+          email, name, uses_current_software, current_software_lacks, willing_to_try, desired_features
+        ) VALUES ($1, $2, $3, $4, $5, $6)
+      `, [email, name || null, usesSoftwareBool, currentSoftwareLacks || null, willingToTryBool, desiredFeatures || null]);
 
-    if (error) {
-      console.error('Supabase survey error:', error);
+      // Flip survey_completed on waitlist_emails
+      await client.query(
+        'UPDATE waitlist_emails SET survey_completed = true WHERE email = $1',
+        [email]
+      );
+
+      await client.query('COMMIT');
+      return NextResponse.json({ success: true });
+    } catch (err) {
+      await client.query('ROLLBACK');
+      console.error('Postgres survey insert error:', err);
       return NextResponse.json({ error: 'Failed to save survey.' }, { status: 500 });
+    } finally {
+      client.release();
     }
-
-    // Flip survey_completed on the waitlist_emails row
-    await supabase
-      .from('waitlist_emails')
-      .update({ survey_completed: true })
-      .eq('email', email);
-
-    return NextResponse.json({ success: true });
   } catch (err) {
     console.error('Survey route error:', err);
     return NextResponse.json({ error: 'Server error.' }, { status: 500 });
